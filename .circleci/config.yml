@@ -6,14 +6,14 @@ orbs:
   welcome: circleci/welcome-orb@0.4.1
 # Orchestrate or schedule a set of jobs
 jobs:
-  setup:
+  build: #This isnt really needed since this project is just a static html site, but I'll leave it as a placeholder
     docker:
       - image: cimg/node:14.10.1 
         auth:
           username: plzlordletthisusernamebefree
           password: BbBkYWzYk_Aam.7*APRZ
     steps:
-      - run: yarn install
+      - run: yarn install 
   test:
     docker:
       - image: cimg/node:14.10.1 
@@ -27,5 +27,5 @@ workflows:
   welcome:
     # Run the welcome/run job in its own container
     jobs:
-      - setup
+      - build
       - test
