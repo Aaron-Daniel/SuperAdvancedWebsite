@@ -10,8 +10,8 @@ jobs:
     docker:
       - image: cimg/node:14.10.1 
         auth:
-          username: plzlordletthisusernamebefree
-          password: BbBkYWzYk_Aam.7*APRZ
+          username: $DockerUsername
+          password: $DockerPassword
     steps:
       - checkout
       - run: yarn install
@@ -19,8 +19,8 @@ jobs:
     docker:
       - image: cimg/node:14.10.1 
         auth:
-          username: plzlordletthisusernamebefree
-          password: BbBkYWzYk_Aam.7*APRZ
+          username: $DockerUsername
+          password: $DockerPassword
     steps:
       - checkout
       - run: yarn install
