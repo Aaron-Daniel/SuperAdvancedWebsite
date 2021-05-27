@@ -13,7 +13,7 @@ jobs:
           username: plzlordletthisusernamebefree
           password: BbBkYWzYk_Aam.7*APRZ
     steps:
-      - run: yarn install 
+      - run: yarn install --no-package-lock
   test:
     docker:
       - image: cimg/node:14.10.1 
@@ -21,7 +21,7 @@ jobs:
           username: plzlordletthisusernamebefree
           password: BbBkYWzYk_Aam.7*APRZ
     steps:
-      - run: yarn install
+      - run: yarn install --no-package-lock
       - run: yarn test
 workflows:
   # Name the workflow "welcome"
