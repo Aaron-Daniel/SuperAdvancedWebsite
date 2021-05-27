@@ -1,0 +1,42 @@
+import { fireEvent, getByText, queryByText } from '@testing-library/dom'
+import '@testing-library/jest-dom/extend-expect'
+import { JSDOM } from 'jsdom'
+import fs from 'fs'
+import path from 'path'
+
+const html = fs.readFileSync(path.resolve(__dirname, './index.html'), 'utf8');
+
+let dom
+let container
+
+describe('index.html', () => {
+  beforeEach(() => {
+    // Constructing a new JSDOM with this option is the key
+    // to getting the code in the script tag to execute.
+    // This is indeed dangerous and should only be done with trusted content.
+    // https://github.com/jsdom/jsdom#executing-scripts
+    dom = new JSDOM(html, { runScripts: 'dangerously' })
+    container = dom.window.document.body
+  })
+
+  it('renders a heading element', () => {
+    expect(container.querySelector('h1')).not.toBeNull()
+    expect(getByText(container, 'Hello World! There is nothing secret going on here...')).toBeInTheDocument()
+  })
+
+  it('renders a button element', () => {
+    expect(container.querySelector('button')).not.toBeNull()
+    expect(getByText(container,"Don't Click Plz")).toBeInTheDocument()
+  })
+
+  it('does not render secret text without button click', async () => {
+    expect(queryByText(container,'Peek-a-boo!')).not.toBeInTheDocument()
+  })
+
+  it('renders a secret text after button click', async () => {
+    const button = getByText(container, "Don't Click Plz")
+    fireEvent.click(button)
+    expect(container.querySelector('p')).not.toBeNull()
+    expect(getByText(container, 'Peek-a-boo!')).toBeInTheDocument()
+  })
+})
