@@ -21,6 +21,7 @@ jobs:
           username: plzlordletthisusernamebefree
           password: BbBkYWzYk_Aam.7*APRZ
     steps:
+      - run: yarn install
       - run: yarn test
 workflows:
   # Name the workflow "welcome"
