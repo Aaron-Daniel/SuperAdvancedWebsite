@@ -33,7 +33,7 @@ jobs:
           password: $DockerPassword
     steps:
       - checkout
-      - run: apt-get install rsync
+      - run: sudo apt-get install rsync
       - run: mkdir bucket 
       - run: rsync -aP --exclude=bucket . bucket/
       - aws-s3/sync:
