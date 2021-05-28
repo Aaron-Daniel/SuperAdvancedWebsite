@@ -33,7 +33,9 @@ jobs:
           password: $DockerPassword
     steps:
       - checkout
-      - run: mkdir bucket && cp -r . bucket/
+      - run: mkdir bucket 
+      - run: shopt -s extglob  # to enable extglob
+      - run: cp -a !(bucket) bucket/
       - aws-s3/sync:
           arguments: |
             --acl public-read \
