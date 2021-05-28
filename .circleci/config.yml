@@ -33,7 +33,7 @@ jobs:
           password: $DockerPassword
     steps:
       - checkout
-      - run: mkdir bucket && cp . bucket/
+      - run: mkdir bucket && cp -r . bucket/
       - aws-s3/sync:
           arguments: |
             --acl public-read \
