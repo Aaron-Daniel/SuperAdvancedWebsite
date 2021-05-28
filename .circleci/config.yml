@@ -2,8 +2,8 @@
 version: 2.1
 # Use a package of configuration called an orb.
 orbs:
-  # Declare a dependency on the welcome-orb
-  welcome: circleci/welcome-orb@0.4.1
+  testing: circleci/welcome-orb@0.4.1
+  aws-s3: circleci/aws-s3@2.0.0
 # Orchestrate or schedule a set of jobs
 jobs:
   build: #This isnt really needed since this project is just a static html site, but I'll leave it as a placeholder
@@ -25,10 +25,30 @@ jobs:
       - checkout
       - run: yarn install
       - run: yarn test
+  deploy: #This isnt really needed since this project is just a static html site, but I'll leave it as a placeholder
+    docker:
+      - image: cimg/node:14.10.1 
+        auth:
+          username: $DockerUsername
+          password: $DockerPassword
+    steps:
+      - checkout
+      - run: sudo apt update && sudo apt-get install rsync
+      - run: mkdir bucket 
+      - run: rsync -aP --exclude=bucket . bucket/
+      - aws-s3/sync:
+          arguments: |
+            --acl public-read \
+            --cache-control "max-age=86400"
+          from: bucket
+          to: 's3://amazingwebsite'
+      - aws-s3/copy:
+          arguments: '--dryrun'
+          from: bucket/
+          to: 's3://amazingwebsite'
 workflows:
-  # Name the workflow "welcome"
-  welcome:
-    # Run the welcome/run job in its own container
+  testing:
     jobs:
       - build
       - test
+      - deploy
