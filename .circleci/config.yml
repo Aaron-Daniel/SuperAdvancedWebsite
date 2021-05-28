@@ -3,7 +3,7 @@ version: 2.1
 # Use a package of configuration called an orb.
 orbs:
   testing: circleci/welcome-orb@0.4.1
-  aws-s3: circleci/aws-s3@x.y
+  aws-s3: circleci/aws-s3@2.0.0
 # Orchestrate or schedule a set of jobs
 jobs:
   build: #This isnt really needed since this project is just a static html site, but I'll leave it as a placeholder
@@ -25,7 +25,13 @@ jobs:
       - checkout
       - run: yarn install
       - run: yarn test
-  deploy:
+  deploy: #This isnt really needed since this project is just a static html site, but I'll leave it as a placeholder
+    docker:
+      - image: cimg/node:14.10.1 
+        auth:
+          username: $DockerUsername
+          password: $DockerPassword
+    steps:
       - checkout
       - run: mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
       - aws-s3/sync:
