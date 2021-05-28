@@ -33,7 +33,7 @@ jobs:
           password: $DockerPassword
     steps:
       - checkout
-      - run: mkdir bucket && echo "lorem ipsum" > bucket/build_asset.txt
+      - run: mkdir bucket && cp . bucket/
       - aws-s3/sync:
           arguments: |
             --acl public-read \
@@ -42,7 +42,7 @@ jobs:
           to: 's3://amazingwebsite'
       - aws-s3/copy:
           arguments: '--dryrun'
-          from: bucket/build_asset.txt
+          from: bucket/
           to: 's3://amazingwebsite'
 workflows:
   testing:
